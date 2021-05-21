@@ -1,0 +1,12 @@
+body{
+  text-align: center;
+}
+.my{
+  text-align: center;
+}
+
+.their{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

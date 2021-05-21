@@ -5,14 +5,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.webrtc.ecl.ntt.com/skyway-4.4.1.js"></script>
-  <title>SkyWayチュートリアル</title>
+  <title>ためし！</title>
 </head>
 <body>
-  <video id="my-video" width="400px" autoplay muted playsinline></video>
-  <p id="my-id"></p>
-  <input id="their-id"></input>
-  <button id="make-call">発信</button>
+
+ <p>Your ID: <span id="my-id"></span></p>
+    <button id="make-call">発信</button>
+    <input id="their-id"></input>
+  <div class="my">
+    <video id="my-video" width="400px" autoplay muted playsinline>
+    </video>
+  </div>
+  <div class="their">
+    <video id="their-video" width="400px" autoplay muted playsinline></video>
+  </div>
+  <div class="their">
   <video id="their-video" width="400px" autoplay muted playsinline></video>
+  </div>
+
+    <%# <button type="button" onclick="fadein()">ミュート解除</button> 
+    <button type="button" onclick="fadeout()">ミュート</button> %>
+  
   <script>
   let localStream;
 
@@ -40,6 +53,7 @@
     document.getElementById('my-id').textContent = peer.id;
 });
 
+
 document.getElementById('make-call').onclick = () => {
   const theirID = document.getElementById('their-id').value;
   const mediaConnection = peer.call(theirID, localStream);
@@ -62,6 +76,18 @@ peer.on('call', mediaConnection => {
   setEventListener(mediaConnection);
 });
 
+ mediaConnection.once('close', () => {
+      remoteVideo.srcObject.getTracks().forEach(track => track.stop());
+      remoteVideo.srcObject = null;
+    });
+
+peer.on('error', err => {
+    alert(err.message);
+});
+
+peer.on('close', () => {
+  alert('通信が切断しました。');
+});
 </script>
 </body>
 </html>
