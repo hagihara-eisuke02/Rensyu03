@@ -1,0 +1,2 @@
+module RensyuHelper
+end
